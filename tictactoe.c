@@ -15,17 +15,23 @@ int main(int argc, char *argv[]) {
 
     // check the commandline arguments 
     checkArgs(argc, argv);
+    int res; // used to store the results from checkWin() 
 
     playerChar = (argv[1] == 0) ? 'X' : 'O';
     printBoard();
-    printf("\n");
+
     playerMove();
-    printf("\n");
+    res = checkWin();
+    printf("Res result is %d\n", res);
     printBoard();
-    printf("\n");
-    enemyMove();
-    printf("\n");
+    playerMove();
+    res = checkWin();
+    printf("Res result is %d\n", res);
     printBoard();
+    playerMove();
+    res = checkWin();
+    printf("Res result is %d\n", res);
+     
 
     return 0;
 }
@@ -108,10 +114,48 @@ void printBoard()
     printf("    |    |    \n");
 }
 
-/*
+
+/* Checks to see if the game is won 
+ * returns 0 if the game is still going, 1 if the player has won, 2 if the
+ * enemy has won, 3 if its a draw
+ */
 int checkWin()
 {
+    // check horizontal 
+    int i = 0;
+    while (i < 6) { 
+        if ((board[i] == board[i+1]) & (board[i] == board[i+2])) {
+            return (board[i] == playerChar) ? 1 : 2;
+        }
+        i+=3;
+    }
+
+    // check vertical 
+    i = 0;
+    while (i < 4) {
+        if ((board[i] == board[i+3]) & (board[i] == board[i+6])) {
+            return (board[i] == playerChar) ? 1 : 2;
+        }
+        i+=1;
+    }
+
+    // check horiz 
+    if ((board[0] == board[4]) & (board[0] == board[8])) {
+            return (board[0] == playerChar) ? 1 : 2;
+    } else if ((board[2] == board[4]) & (board[2] == board[6])) { 
+            return (board[2] == playerChar) ? 1 : 2;
+    }
+
+    // check draw -- when all of the squares are used 
+    bool isDraw = true;
+    i = 0;
+    while ((isDraw == true) & ( i < 10)) {
+        if (isalpha(board[i]) == 0) { // number 
+            isDraw = false;
+        }
+        i++;
+    }
+    return 0; 
 }
-*/
     
 
