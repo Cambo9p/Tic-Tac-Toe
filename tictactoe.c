@@ -17,21 +17,30 @@ int main(int argc, char *argv[]) {
     checkArgs(argc, argv);
     int res; // used to store the results from checkWin() 
 
-    playerChar = (argv[1] == 0) ? 'X' : 'O';
+    playerChar = (argv[1] == 0) ? 'O' : 'X';
     printBoard();
+    printf("player char is %c\n", playerChar);
+    
+    if (playerChar == 'X') { // player goes first 
+        playerMove();
+    }
 
-    playerMove();
-    res = checkWin();
-    printf("Res result is %d\n", res);
-    printBoard();
-    playerMove();
-    res = checkWin();
-    printf("Res result is %d\n", res);
-    printBoard();
-    playerMove();
-    res = checkWin();
-    printf("Res result is %d\n", res);
-     
+    do {
+        enemyMove();
+        printBoard();
+        playerMove();
+        printBoard();
+        res = checkWin();
+    } while (res == 0);
+
+    if (res == 1) {
+        // player wins
+        printf("Congratulations, you won!\n");
+    } else if (res == 2) { 
+        printf("Sorry, you lost.\n");
+    } else { 
+        printf("Its a draw!\n");
+    }
 
     return 0;
 }
@@ -81,7 +90,7 @@ void enemyMove()
     bool isValid = false;
 
     while (!isValid) {
-        if (isalpha(board[r]) == 1) {
+        if (isalpha(board[r]) != 0) {
             r = rand() % 10; 
         } else {
             isValid = true;
@@ -89,7 +98,6 @@ void enemyMove()
     }
 
     Move_t *move = malloc(1*sizeof(Move_t));
-    printf("%d\n",r);
     move -> slotNumber = r;
     move -> player = playerChar == 'X' ? 'O' : 'X';
     enterMove(move);
