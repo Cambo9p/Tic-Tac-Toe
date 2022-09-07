@@ -8,7 +8,7 @@ typedef struct {
 
 void enterMove(Move_t *move);
 void playerMove();
-int enemyMove();
+void enemyMove();
 void printBoard();
 void checkArgs(int argc, char *argv[]); 
 int checkWin();
