@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <stdbool.h>
 
 #include "tictactoe.h"
 
@@ -16,7 +18,13 @@ int main(int argc, char *argv[]) {
 
     playerChar = (argv[1] == 0) ? 'X' : 'O';
     printBoard();
+    printf("\n");
     playerMove();
+    printf("\n");
+    printBoard();
+    printf("\n");
+    enemyMove();
+    printf("\n");
     printBoard();
 
     return 0;
@@ -44,7 +52,6 @@ void enterMove(Move_t *move)
 }
 
 
-
 /* Function to allow a player to choose a move and add move to board
  */
 void playerMove()
@@ -55,14 +62,33 @@ void playerMove()
     move-> player = playerChar; 
     enterMove(move);
     free(move);
-
 }
 
-/*
-int enemyMove()
+
+/* makes a random enemy move 
+ */
+void enemyMove()
 {
+    printf("enemy is playing\n");
+    int r = rand() % 10;
+
+    bool isValid = false;
+
+    while (!isValid) {
+        if (isalpha(board[r]) == 1) {
+            r = rand() % 10; 
+        } else {
+            isValid = true;
+        }
+    }
+
+    Move_t *move = malloc(1*sizeof(Move_t));
+    printf("%d\n",r);
+    move -> slotNumber = r;
+    move -> player = playerChar == 'X' ? 'O' : 'X';
+    enterMove(move);
+    free(move);
 }
-*/
 
 
 /* Prints the Game board once the player has moved 
