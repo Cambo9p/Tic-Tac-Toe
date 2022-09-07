@@ -1,19 +1,15 @@
-#ifndef TIKTACTOE.h
-#define TIKTACTOE.h
+#ifndef TIKTACTOE_h
+#define TIKTACTOE_h
 
 typedef struct {
     int slotNumber;
     char player;
 } Move_t;
 
-/* struct to determin the state of the game 
- */
-typedef struct {
-    char a;
-    char b;
-    char c
-
-void printBoard(Move_t move);
+void enterMove(Move_t *move);
+void playerMove();
+int enemyMove();
+void printBoard();
 void checkArgs(int argc, char *argv[]); 
 int checkWin();
 
